@@ -104,48 +104,48 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="pt-5 px-5 pb-0">
-      <div className="d-flex justify-content-between align-items-center mb-5">
+    <div className="pt-4 pt-xxl-5 px-5 pb-0 admin-dashboard">
+      <div className="d-flex justify-content-between align-items-center mb-4 mb-xxl-5">
         <h2 className="mb-0">Dashboard Laundry Resik</h2>
       </div>
       
       <div className="w-100 d-flex justify-content-between align-items-center mb-4">
-        <div className='shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{width:'23%',borderLeft:'10px solid #0d6efd'}}>
+        <div className='card-dashboard shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{borderLeftColor:'#0d6efd'}}>
           <div>
             <h6 className='text-primary'>Pendapatan Bulanan</h6>
-            <h3 className='mb-0'><span style={{fontSize:'18px'}}>RP</span>.{data.monthlyIncome.toLocaleString('id-ID')}</h3>
+            <h3 className='mb-0'><span>RP</span>.{data.monthlyIncome.toLocaleString('id-ID')}</h3>
           </div>
-          <i className="bi-calendar-fill" style={{fontSize:'38px',color:'#dddddd'}}></i>
+          <i className="bi-calendar-fill" ></i>
         </div>
-        <div className='shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{width:'23%',borderLeft:'10px solid #00c711'}}>
+        <div className='card-dashboard shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{borderLeftColor:'#00c711'}}>
           <div>
             <h6 style={{color:'#00c711'}}>Total Pendapatan</h6>
-            <h3 className='mb-0'><span style={{fontSize:'18px'}}>RP</span>.{data.totalIncome.toLocaleString('id-ID')}</h3>
+            <h3 className='mb-0'><span>RP</span>.{data.totalIncome.toLocaleString('id-ID')}</h3>
           </div>
-          <i className="bi-currency-dollar" style={{fontSize:'38px',color:'#dddddd'}}></i>
+          <i className="bi-currency-dollar" ></i>
         </div>
-        <div className='shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{width:'23%',borderLeft:'10px solid #00c7c0'}}>
+        <div className='card-dashboard shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{borderLeftColor:'#00c7c0'}}>
           <div>
             <h6 style={{color:'#00c7c0'}}>Pesanan Selesai</h6>
             <h3 className='mb-0'>{data.completedOrders}</h3>
           </div>
-          <i className="bi-check2-circle" style={{fontSize:'38px',color:'#dddddd'}}></i>
+          <i className="bi-check2-circle" ></i>
         </div>
-        <div className='shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{width:'23%',borderLeft:'10px solid #e9d900'}}>
+        <div className='card-dashboard shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{borderLeftColor:'#e9d900'}}>
           <div>
             <h6 style={{color:'#e9d900'}}>Pesanan Berjalan</h6>
             <h3 className='mb-0'>{data.ongoingOrders}</h3>
           </div>
-          <i className="bi-list-task" style={{fontSize:'38px',color:'#dddddd'}}></i>
+          <i className="bi-list-task" ></i>
         </div>
       </div>
 
-      <div className="w-100 d-flex justify-content-between align-items-center">
-        <div className='pt-2 px-3 bg-white rounded shadow-sm' style={{width: '64%',height:'calc(100vh - 375px)'}}>
+      <div className="w-100 d-flex justify-content-between align-items-stretch chart-container">
+        <div className='py-2 px-3 bg-white rounded shadow-sm d-flex flex-column' style={{width: '64%'}}>
           <h4>Pendapatan Tahun Ini</h4>
           <Line data={lineChartData} />
         </div>
-        <div className='pt-2 px-3 bg-white rounded shadow-sm' style={{width: '33%',height:'calc(100vh - 375px)'}}>
+        <div className='py-2 px-3 bg-white rounded shadow-sm d-flex flex-column' style={{width: '33%'}}>
           <h4>Pesanan Berjalan</h4>
           <Doughnut data={doughnutChartData} />
         </div>

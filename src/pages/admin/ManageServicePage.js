@@ -162,7 +162,7 @@ const TrackingCodePage = () => {
   };
 
   return (
-    <div className="p-5">
+    <div className="py-4 py-xxl-5 px-5">
       <div className="d-flex justify-content-between align-items-center mb-5">
         <h2 className="mb-0">Kelola Layanan</h2>
       </div>

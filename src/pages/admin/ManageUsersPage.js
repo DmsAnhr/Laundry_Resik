@@ -127,7 +127,7 @@ const ManageUsersPage = () => {
   };
 
   return (
-    <div className="px-5 pt-5 pb-0">
+    <div className="pt-4 pt-xxl-5 px-5 pb-0">
       <div className="d-flex justify-content-between align-items-center mb-5">
         <h2 className="mb-0">Kelola Akses Pengguna</h2>
         <Button className="btn btn-lg btn-primary py-3 px-4" onClick={handleShow}>+ Tambah Akses</Button>

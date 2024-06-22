@@ -135,3 +135,50 @@ table td{
 .bc-admin a{
   text-decoration: none;
 }
+
+.admin-dashboard .card-dashboard{
+  width: 23%;
+  border-left-width: 10px;
+  border-left-style: solid;
+}
+
+.admin-dashboard .card-dashboard h3 span{
+  font-size: 18px;
+}
+
+.admin-dashboard .card-dashboard i {
+  font-size: 38px;
+  color: #dddddd;
+}
+
+.admin-dashboard .chart-container{
+  height:calc(100vh - 375px);
+}
+
+@media only screen and (max-width: 1400px) {
+
+  .admin-dashboard .card-dashboard{
+    border-left-width: 8px;
+    padding: 16px !important;
+  }
+  .admin-dashboard .card-dashboard h6 {
+    font-size: 14px;
+  }
+
+  .admin-dashboard .card-dashboard h3 {
+    font-size: 18px;
+  }
+  
+  .admin-dashboard .card-dashboard h3 span{
+    font-size: 14px;
+  }
+
+  .admin-dashboard .card-dashboard i {
+    font-size: 24px;
+  }
+
+  .admin-dashboard .chart-container{
+    height:auto;
+  }
+
+}
