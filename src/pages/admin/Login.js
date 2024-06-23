@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { API_URL } from '../../utils/constants';
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
@@ -9,8 +10,7 @@ const Login = ({ onLogin }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://8x7r3mdp-3100.asse.devtunnels.ms/api/auth/login', { email, password });
-      // const token = response.data.token;
+      const response = await axios.post(`${API_URL}/api/auth/login`, { email, password });
       const { token, user } = response.data;
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
@@ -60,3 +60,4 @@ const Login = ({ onLogin }) => {
 };
 
 export default Login;
+

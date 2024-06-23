@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { API_URL } from '../../utils/constants';
 import { NavLink } from 'react-router-dom';
 import { Form, FormControl, Table, Button, Offcanvas } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 
 function formatRupiah(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -22,7 +23,7 @@ const OrderHistoryPage = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('https://8x7r3mdp-3100.asse.devtunnels.ms/api/orders');
+      const response = await axios.get(`${API_URL}/api/orders`);
       const sortedOrders = response.data.sort((a, b) => {
         const parseDate = (dateStr) => {
           const [day, month, year] = dateStr.split('-');
@@ -39,7 +40,7 @@ const OrderHistoryPage = () => {
 
   const fetchOrderItems = async () => {
     try {
-      const response = await axios.get('https://8x7r3mdp-3100.asse.devtunnels.ms/api/order-items');
+      const response = await axios.get(`${API_URL}/api/order-items`);
       setOrderDetails(response.data);
     } catch (error) {
       console.error('Error fetching order items:', error);
@@ -48,7 +49,7 @@ const OrderHistoryPage = () => {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get('https://8x7r3mdp-3100.asse.devtunnels.ms/api/services');
+      const response = await axios.get(`${API_URL}/api/services`);
       setServices(response.data);
     } catch (error) {
       console.error('Error fetching services:', error);
@@ -97,7 +98,7 @@ const OrderHistoryPage = () => {
   const selectedOrderItems = orderDetails.filter(item => item.order_id === selectedOrderId);
 
   return (
-    <div className="pt-4 pt-xxl-5 px-5 pb-0">
+    <div className="px-5 pt-5 pb-0">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2 className="mb-0">Riwayat Pesanan</h2>
       </div>

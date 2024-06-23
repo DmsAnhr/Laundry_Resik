@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API_URL } from '../../utils/constants';
 import { Line, Doughnut } from 'react-chartjs-2';
 import 'chart.js/auto';
 
@@ -16,7 +17,7 @@ const DashboardPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://8x7r3mdp-3100.asse.devtunnels.ms/api/orders');
+        const response = await axios.get(`${API_URL}/api/orders`);
         const orders = response.data;
         
         // pendapatan bulanan
@@ -104,48 +105,48 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="pt-4 pt-xxl-5 px-5 pb-0 admin-dashboard">
-      <div className="d-flex justify-content-between align-items-center mb-4 mb-xxl-5">
+    <div className="pt-5 px-5 pb-0">
+      <div className="d-flex justify-content-between align-items-center mb-5">
         <h2 className="mb-0">Dashboard Laundry Resik</h2>
       </div>
       
       <div className="w-100 d-flex justify-content-between align-items-center mb-4">
-        <div className='card-dashboard shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{borderLeftColor:'#0d6efd'}}>
+        <div className='shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{width:'23%',borderLeft:'10px solid #0d6efd'}}>
           <div>
             <h6 className='text-primary'>Pendapatan Bulanan</h6>
-            <h3 className='mb-0'><span>RP</span>.{data.monthlyIncome.toLocaleString('id-ID')}</h3>
+            <h3 className='mb-0'><span style={{fontSize:'18px'}}>RP</span>.{data.monthlyIncome.toLocaleString('id-ID')}</h3>
           </div>
-          <i className="bi-calendar-fill" ></i>
+          <i className="bi-calendar-fill" style={{fontSize:'38px',color:'#dddddd'}}></i>
         </div>
-        <div className='card-dashboard shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{borderLeftColor:'#00c711'}}>
+        <div className='shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{width:'23%',borderLeft:'10px solid #00c711'}}>
           <div>
             <h6 style={{color:'#00c711'}}>Total Pendapatan</h6>
-            <h3 className='mb-0'><span>RP</span>.{data.totalIncome.toLocaleString('id-ID')}</h3>
+            <h3 className='mb-0'><span style={{fontSize:'18px'}}>RP</span>.{data.totalIncome.toLocaleString('id-ID')}</h3>
           </div>
-          <i className="bi-currency-dollar" ></i>
+          <i className="bi-currency-dollar" style={{fontSize:'38px',color:'#dddddd'}}></i>
         </div>
-        <div className='card-dashboard shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{borderLeftColor:'#00c7c0'}}>
+        <div className='shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{width:'23%',borderLeft:'10px solid #00c7c0'}}>
           <div>
             <h6 style={{color:'#00c7c0'}}>Pesanan Selesai</h6>
             <h3 className='mb-0'>{data.completedOrders}</h3>
           </div>
-          <i className="bi-check2-circle" ></i>
+          <i className="bi-check2-circle" style={{fontSize:'38px',color:'#dddddd'}}></i>
         </div>
-        <div className='card-dashboard shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{borderLeftColor:'#e9d900'}}>
+        <div className='shadow-sm bg-white rounded py-4 px-3 d-flex justify-content-between align-items-center' style={{width:'23%',borderLeft:'10px solid #e9d900'}}>
           <div>
             <h6 style={{color:'#e9d900'}}>Pesanan Berjalan</h6>
             <h3 className='mb-0'>{data.ongoingOrders}</h3>
           </div>
-          <i className="bi-list-task" ></i>
+          <i className="bi-list-task" style={{fontSize:'38px',color:'#dddddd'}}></i>
         </div>
       </div>
 
-      <div className="w-100 d-flex justify-content-between align-items-stretch chart-container">
-        <div className='py-2 px-3 bg-white rounded shadow-sm d-flex flex-column' style={{width: '64%'}}>
+      <div className="w-100 d-flex justify-content-between align-items-center">
+        <div className='pt-2 px-3 bg-white rounded shadow-sm' style={{width: '64%',height:'calc(100vh - 375px)'}}>
           <h4>Pendapatan Tahun Ini</h4>
           <Line data={lineChartData} />
         </div>
-        <div className='py-2 px-3 bg-white rounded shadow-sm d-flex flex-column' style={{width: '33%'}}>
+        <div className='pt-2 px-3 bg-white rounded shadow-sm' style={{width: '33%',height:'calc(100vh - 375px)'}}>
           <h4>Pesanan Berjalan</h4>
           <Doughnut data={doughnutChartData} />
         </div>

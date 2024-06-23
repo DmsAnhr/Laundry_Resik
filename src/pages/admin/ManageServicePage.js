@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { API_URL } from '../../utils/constants';
 import { NavLink } from 'react-router-dom';
 import { Form, FormControl, Table, Button, Col, Nav, Row, Tab, Modal } from 'react-bootstrap';
 import swal from 'sweetalert';
-import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
@@ -43,7 +44,7 @@ const TrackingCodePage = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('https://8x7r3mdp-3100.asse.devtunnels.ms/api/categories');
+      const response = await axios.get(`${API_URL}/api/categories`);
       setCategories(response.data);
       if (response.data.length > 0) {
         setActiveCategory(response.data[0].id);
@@ -55,7 +56,7 @@ const TrackingCodePage = () => {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get('https://8x7r3mdp-3100.asse.devtunnels.ms/api/services');
+      const response = await axios.get(`${API_URL}/api/services`);
       setServices(response.data);
     } catch (error) {
       console.error("There was an error fetching the services!", error);
@@ -70,7 +71,7 @@ const TrackingCodePage = () => {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        axios.delete(`https://8x7r3mdp-3100.asse.devtunnels.ms/api/categories/${categoryId}`)
+        axios.delete(`${API_URL}/api/categories/${categoryId}`)
           .then(() => {
             fetchCategories();
             swal("Yahh! kategori telah dihapus!", {
@@ -97,7 +98,7 @@ const TrackingCodePage = () => {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        axios.delete(`https://8x7r3mdp-3100.asse.devtunnels.ms/api/services/${serviceId}`)
+        axios.delete(`${API_URL}/api/services/${serviceId}`)
           .then(() => {
             fetchServices();
             swal("Yahh! layanan telah dihapus!", {
@@ -120,9 +121,9 @@ const TrackingCodePage = () => {
     event.preventDefault();
     try {
       if (serviceForm.id) {
-        await axios.put(`https://8x7r3mdp-3100.asse.devtunnels.ms/api/services/${serviceForm.id}`, serviceForm);
+        await axios.put(`${API_URL}/api/services/${serviceForm.id}`, serviceForm);
       } else {
-        await axios.post('https://8x7r3mdp-3100.asse.devtunnels.ms/api/services', serviceForm);
+        await axios.post(`${API_URL}/api/services`, serviceForm);
       }
       fetchServices();
       handleCloseServiceModal();
@@ -135,9 +136,9 @@ const TrackingCodePage = () => {
     event.preventDefault();
     try {
       if (categoryForm.id) {
-        await axios.put(`https://8x7r3mdp-3100.asse.devtunnels.ms/api/categories/${categoryForm.id}`, categoryForm);
+        await axios.put(`${API_URL}/api/categories/${categoryForm.id}`, categoryForm);
       } else {
-        await axios.post('https://8x7r3mdp-3100.asse.devtunnels.ms/api/categories', categoryForm);
+        await axios.post(`${API_URL}/api/categories`, categoryForm);
       }
       fetchCategories();
       handleCloseCategoryModal();
@@ -162,7 +163,7 @@ const TrackingCodePage = () => {
   };
 
   return (
-    <div className="py-4 py-xxl-5 px-5">
+    <div className="p-5">
       <div className="d-flex justify-content-between align-items-center mb-5">
         <h2 className="mb-0">Kelola Layanan</h2>
       </div>
