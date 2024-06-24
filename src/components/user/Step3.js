@@ -41,7 +41,7 @@ Laundry Resik 🧺
         `;
 
         const waUrl = `https://api.whatsapp.com/send?phone=${waNumber}&text=${encodeURIComponent(message)}`;
-        window.open(waUrl, '_blank');
+        // window.open(waUrl, '_blank');
 
         const orderData = {
             order_date: new Date().toISOString().split('T')[0],
@@ -63,6 +63,8 @@ Laundry Resik 🧺
 
             if (!response.ok) {
                 throw new Error('Gagal membuat pesanan');
+            }else{
+                window.open(waUrl, '_blank');
             }
 
             const result = await response.json();
@@ -79,7 +81,7 @@ Laundry Resik 🧺
 
         } catch (error) {
             console.error('Error:', error);
-            swal("Gagal mengkonfirmasi pesanan", "Terjadi kesalahan, silakan coba lagi.", "error");
+            swal("Gagal mengkonfirmasi pesanan", "Server Sedang Mati", "error");
         }
     };
 

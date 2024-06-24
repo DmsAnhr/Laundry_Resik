@@ -180,7 +180,7 @@ const TrackingCodePage = () => {
               <td>{order.customer_name}</td>
               <td>{order.address}</td>
               {order.status === 'Verifikasi' ? 
-                <td className='text-danger text-center'>{order.status}</td>
+                <td className='text-danger text-center'>Proses Pickup</td>
                 :
                 <td style={{minWidth:'137px'}}>
                   <Form.Select
@@ -192,7 +192,7 @@ const TrackingCodePage = () => {
                                 order.status === 'Selesai' ? 'text-success' : ''
                               }
                   >
-                    <option className='text-danger' value="Verifikasi">Verifikasi</option>
+                    <option className='text-danger' value="Verifikasi">Proses Pickup</option>
                     <option className='text-warning' value="Proses">Proses</option>
                     <option className='text-primary' value="Siap Ambil">Siap Ambil</option>
                     <option className='text-success' value="Selesai">Selesai</option>
@@ -248,7 +248,7 @@ const TrackingCodePage = () => {
                                 orders.find(order => order.id === selectedOrderId)?.status === 'Siap Ambil' ? 'text-primary' :
                                 orders.find(order => order.id === selectedOrderId)?.status === 'Selesai' ? 'text-success' :
                               ''} style={{borderLeft:'none'}} >
-                  {orders.find(order => order.id === selectedOrderId)?.status}
+                  {orders.find(order => order.id === selectedOrderId)?.status === 'Verifikasi' ? 'Proses Pickup' : orders.find(order => order.id === selectedOrderId)?.status}
                 </td>
               </tr>
               <tr>

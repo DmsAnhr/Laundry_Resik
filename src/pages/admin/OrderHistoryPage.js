@@ -5,6 +5,12 @@ import { NavLink } from 'react-router-dom';
 import { Form, FormControl, Table, Button, Offcanvas } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
+import { CSVLink } from 'react-csv';
+
+// yarn add jspdf jspdf-autotable
+// yarn add jspdf react-csv
 
 function formatRupiah(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -97,6 +103,63 @@ const OrderHistoryPage = () => {
 
   const selectedOrderItems = orderDetails.filter(item => item.order_id === selectedOrderId);
 
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    const tableColumn = ["Kode", "Tanggal", "Nama Pemesan", "Alamat", "Status"];
+    const tableRows = [];
+
+    filteredOrders.forEach(order => {
+      const orderData = [
+        order.tracking_code,
+        order.order_date,
+        order.customer_name,
+        order.address,
+        order.status
+      ];
+      tableRows.push(orderData);
+
+      const details = orderDetails.filter(item => item.order_id === order.id);
+      details.forEach(detail => {
+        const service = services.find(s => s.id === detail.service_id);
+        const detailData = [
+          `  - ${service ? service.name : "Unknown Service"}`,
+          `    ${detail.quantity} ${service ? service.unit : ''}`,
+          `    Rp${formatRupiah(detail.price)}`
+        ];
+        tableRows.push(detailData);
+      });
+    });
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20
+    });
+    doc.text("Riwayat Pesanan", 14, 15);
+    doc.save("order_history.pdf");
+  };
+
+  const csvData = filteredOrders.map(order => {
+    const details = orderDetails.filter(item => item.order_id === order.id);
+    const detailData = details.map(detail => {
+      const service = services.find(s => s.id === detail.service_id);
+      return {
+        Service: service ? service.name : "Unknown Service",
+        Quantity: `${detail.quantity} ${service ? service.unit : ''}`,
+        Price: `Rp${formatRupiah(detail.price)}`
+      };
+    });
+
+    return {
+      Kode: order.tracking_code,
+      Tanggal: order.order_date,
+      Nama: order.customer_name,
+      Alamat: order.address,
+      Status: order.status,
+      Details: detailData
+    };
+  });
+
   return (
     <div className="px-5 pt-5 pb-0">
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -109,16 +172,12 @@ const OrderHistoryPage = () => {
             <li className="breadcrumb-item active" aria-current="page">Riwayat</li>
           </ol>
         </nav>
-        <Form className="d-flex ms-auto">
-          <FormControl
-            type="search"
-            placeholder="Cari..."
-            className="me-2"
-            aria-label="Search"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-        </Form>
+        <div>
+          <Button variant="light" className="me-2 btn-outline-danger" onClick={generatePDF}>Export PDF</Button>
+          <CSVLink data={csvData} filename={"order_history.csv"}>
+            <Button variant="light" className="btn-outline-success">Export CSV</Button>
+          </CSVLink>
+        </div>
       </div>
       <Table bordered hover>
         <thead>
@@ -181,86 +240,16 @@ const OrderHistoryPage = () => {
           <Offcanvas.Title>Detail Pesanan</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <table className="table table-bordered">
-            <tbody>
-              <tr>
-                <td style={{width:'150px',borderRight:'none'}}>Status</td>
-                <td className='text-center' style={{width:'20px',border:'none'}}>:</td>
-                <td className={orders.find(order => order.id === selectedOrderId)?.status === 'Verifikasi' ? 'text-danger' :
-                                orders.find(order => order.id === selectedOrderId)?.status === 'Proses' ? 'text-warning' :
-                                orders.find(order => order.id === selectedOrderId)?.status === 'Siap Ambil' ? 'text-primary' :
-                                orders.find(order => order.id === selectedOrderId)?.status === 'Selesai' ? 'text-success' :
-                              ''} style={{borderLeft:'none'}} >
-                  {orders.find(order => order.id === selectedOrderId)?.status}
-                </td>
-              </tr>
-              <tr>
-                <td style={{width:'150px',borderRight:'none'}}>Nomor Pesanan</td>
-                <td className='text-center' style={{width:'20px',border:'none'}}>:</td>
-                <td style={{borderLeft:'none'}}>{orders.find(order => order.id === selectedOrderId)?.tracking_code}</td>
-              </tr>
-              <tr>
-                <td style={{width:'150px',borderRight:'none'}}>Nama</td>
-                <td className='text-center' style={{width:'20px',border:'none'}}>:</td>
-                <td style={{borderLeft:'none'}}>{orders.find(order => order.id === selectedOrderId)?.customer_name}</td>
-              </tr>
-              <tr>
-                <td style={{width:'150px',borderRight:'none'}}>Nomor WA</td>
-                <td className='text-center' style={{width:'20px',border:'none'}}>:</td>
-                <td style={{borderLeft:'none'}}>{orders.find(order => order.id === selectedOrderId)?.telp}</td>
-              </tr>
-              <tr>
-                <td style={{width:'150px',borderRight:'none'}}>Alamat</td>
-                <td className='text-center' style={{width:'20px',border:'none'}}>:</td>
-                <td style={{borderLeft:'none'}}>{orders.find(order => order.id === selectedOrderId)?.address}</td>
-              </tr>
-              <tr>
-                <td style={{width:'150px',borderRight:'none'}}>Catatan</td>
-                <td className='text-center' style={{width:'20px',border:'none'}}>:</td>
-                <td style={{borderLeft:'none'}}>{orders.find(order => order.id === selectedOrderId)?.notes}</td>
-              </tr>
-              <tr>
-                <td style={{width:'150px',borderRight:'none'}}>Layanan</td>
-                <td className='text-center' style={{width:'20px',border:'none'}}>:</td>
-                <td style={{borderLeft:'none'}}>
-                  {selectedOrderItems.map(item => {
-                    const service = services.find(s => s.id === item.service_id);
-                    return (
-                      // <div key={item.id}>
-                      //   {item.quantity} {service ? service.unit : ''} - {service ? service.name : 'Unknown Service'}
-                      // </div>
-                      <div key={item.id} className='pe-2 mb-1 border rounded d-flex justify-content-between align-items-center' style={{overflow:'hidden'}}>
-                        <div className=' d-flex justify-content-center align-items-center'>
-                          <div className='me-2 bg-light d-flex justify-content-center align-items-center' style={{aspectRatio:'1/1',height:'56px'}}>
-                            <h6 className='m-0' style={{fontSize:'0.9em'}}>{service.name}</h6>
-                          </div>
-                          <h5 className='m-0' style={{fontSize:'18px'}}>{item.quantity}
-                            {service.unit === 'm2' ? (
-                                <span>m<sup>2</sup></span>
-                            ) : (
-                                service.unit
-                            )}
-                          </h5>
-                        </div>
-                        <div>
-                          <h5 className='m-0'><span style={{fontSize:'14px'}}>Rp</span>.{formatRupiah(item.price)}</h5>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </td>
-              </tr>
-              <tr>
-                <td className='fw-bold' style={{width:'150px',borderRight:'none'}}>Total Biaya</td>
-                <td className='text-center' style={{width:'20px',border:'none'}}>:</td>
-                <td className='fw-bold text-end' style={{borderLeft:'none'}}>
-                  <h5 className='m-0'>
-                    <span style={{fontSize:'14px'}}>Rp</span>.{formatRupiah(parseInt(orders.find(order => order.id === selectedOrderId)?.total_price))}
-                  </h5>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          {selectedOrderItems.map((item, index) => {
+            const service = services.find(s => s.id === item.service_id);
+            return (
+              <div key={index}>
+                <h5>{service ? service.name : 'Unknown Service'}</h5>
+                <p>Quantity: {item.quantity} {service ? service.unit : ''}</p>
+                <p>Price: Rp{formatRupiah(item.price)}</p>
+              </div>
+            );
+          })}
         </Offcanvas.Body>
       </Offcanvas>
     </div>

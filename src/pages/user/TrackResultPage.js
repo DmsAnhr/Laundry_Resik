@@ -126,7 +126,7 @@ Terima kasih 🙏
                     <div className='step-item completed'>
                         <i className='step-icon bi-send-check'></i>
                     </div>
-                    <h5 className='ms-5 mb-0' style={{position:'absolute'}}>Verifikasi</h5>
+                    <h5 className='ms-5 mb-0' style={{position:'absolute'}}>Pickup</h5>
                 </div>
                 <div className={`vertical-lines ${statusNow > 1 ? 'active' : ''}`}></div>
                 <div className='d-flex align-items-center'>
@@ -163,7 +163,7 @@ Terima kasih 🙏
                         order.status === 'Selesai' ? 'text-success' :
                         ''
                       }>
-                        {order.status}
+                        {order.status === 'Verifikasi' ? 'Proses Pickup' : order.status}
                       </td>
                     </tr>
                     <tr>
@@ -186,7 +186,7 @@ Terima kasih 🙏
                       <td>Layanan</td>
                       <td>
                         {selectedOrderItems.length === 0 ? (
-                            <h5 className="m-0 text-warning text-end">Dalam Proses Verifikasi</h5>
+                            <h5 className="m-0 text-warning text-end">Menunggu Verifikasi</h5>
                         ) : (
                           selectedOrderItems.map(item => {
                             const service = services.find(s => s.id === item.service_id);
@@ -222,7 +222,7 @@ Terima kasih 🙏
                         <td className='fw-bold' >Total Biaya</td>
                         <td className='fw-bold text-end'>
                           {selectedOrderItems.length === 0 ? (
-                              <h5 className="m-0 text-warning">Dalam Proses Verifikasi</h5>
+                              <h5 className="m-0 text-warning">Menunggu Verifikasi</h5>
                           ) : ( 
                               <h5 className='m-0'>
                                 <span style={{fontSize:'14px'}}>Rp</span>.{formatRupiah(parseInt(order.total_price))}

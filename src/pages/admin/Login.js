@@ -16,7 +16,11 @@ const Login = ({ onLogin }) => {
       localStorage.setItem('user', JSON.stringify(user));
       onLogin(token, user);
     } catch (err) {
-      setError('Invalid email or password');
+      if (!err.response) {
+        alert('Server Sedang Mati');
+      } else {
+        setError('Invalid email or password');
+      }
     }
   };
 

@@ -89,7 +89,7 @@ const DashboardPage = () => {
   };
 
   const doughnutChartData = {
-    labels: ['Verifikasi', 'Proses', 'Siap Ambil'],
+    labels: ['Pickup', 'Proses', 'Siap Ambil'],
     datasets: [
       {
         label: 'Status Pesanan Berjalan',
